@@ -15,7 +15,7 @@ void usercontrol(void) {
   controller1.ButtonUp.pressed(incrementFlywheel);
   controller1.ButtonLeft.pressed(updateExtension);
   Brain.Screen.setFillColor("blue");
-  flywheelScaler = 0.51;
+  flywheelScaler = 0.52;
   thread t = thread(flyThread);
   // User control code here, inside the loop
   while (1) {

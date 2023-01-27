@@ -64,11 +64,21 @@ void autonomous(void) {
   // ..........................................................................
   //driveStraight(30, 0);
   //solo();
-  auton_left();
+  //auton_right();
+  //auton_left();
   //a_right();
   //a_left();
-  //skills();
+  skills();
   //extension.set(true);
+  //while (true) {
+  //  controller1.Screen.setCursor(0, 0);
+  //  controller1.Screen.print(convertColor());
+  //} 
+  //turnRoller(0, 1);
+  //while (true) {
+  //  controller1.Screen.setCursor(0, 0);
+  //  controller1.Screen.print(vertical.velocity(dps));
+  //}
 }
 
 int main() {

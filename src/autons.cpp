@@ -9,10 +9,135 @@ void match_load() {
   launch();
 }
 
-void a_left() { turnRoller(0, 0.2, false); }
+void a_left() { 
+  intake.spin(forward, 12, volt);
+  timeDriveStraight(0.4, 0, 5);
+  intake.stop(); 
+}
 
 void auton_left() {
-  flywheelScaler = 0.616;
+  flywheelSpinning = true;
+  flywheelScaler = 0.628;
+  thread t = thread(flyThread);
+  a_left();
+  driveStraight(-3, 0, 1, 0.5);
+  turnHeading(45, false, 0.7);
+  driveStraight(-12, 45, 2, 2);
+  turnHeading(-15, false, 1.5);
+  driveStraight(-2, -15, 2, 1);
+  turnHeading(-15);
+  timeDriveStraight(0.5, -15, 0);
+  leftDrivetrain.stop();
+  rightDrivetrain.stop();
+  launch();
+  wait(0.5, seconds);
+  launch();
+  turnHeading(-135);
+  flywheelScaler = 0.62;
+  intake.spin(reverse, 12, volt);
+  driveStraight(7.5, -135, 2, 2);
+  leftDrivetrain.stop();
+  rightDrivetrain.stop();
+  wait(0.5, seconds);
+  driveStraight(12.5, -135, 3, 3, true, 6);
+  turnHeading(-28);
+  timeDriveStraight(0.3, -28, 0);
+  leftDrivetrain.stop();
+  rightDrivetrain.stop();
+  launch();
+  wait(0.5, seconds);
+  launch();
+  wait(0.5, seconds);
+  launch();
+  intake.stop();
+}
+
+void a_right() {
+  driveStraight(23, 0, 2);
+  turnHeading(90);
+  intake.spin(forward, 12, volt);
+  timeDriveStraight(0.3, 90, 3);
+  intake.stop(); 
+}
+
+void solo() {
+  flywheelSpinning = true;
+  flywheelScaler = 0.61;
+  thread t = thread(flyThread);
+  a_left();
+  driveStraight(-1, 0, 1, 0.5);
+  turnHeading(-130);
+  intake.spin(reverse, 12, volt);
+  driveStraight(18, -130, 2, 2);
+  leftDrivetrain.stop();
+  rightDrivetrain.stop();
+  wait(0.5, seconds);
+  driveStraight(13, -130, 3, 3, true, 6);
+  turnHeading(-29);
+  leftDrivetrain.stop();
+  rightDrivetrain.stop();
+  launch();
+  wait(0.5, seconds);
+  launch();
+  wait(0.5, seconds);
+  launch();
+  turnHeading(-135);
+  intake.spin(reverse, 12, volt);
+  driveStraight(50, -135, 3, 3, true, 8);
+  //turnHeading(-68);
+  //leftDrivetrain.stop();
+  //rightDrivetrain.stop();
+  //launch();
+  //wait(0.5, seconds);
+  //launch();
+  //wait(0.5, seconds);
+  //launch();
+  intake.stop();
+  flywheel.stop();
+  turnHeading(-140);
+  driveStraight(20, -140, 3, 3, true, 8);
+  turnHeading(-90);
+  intake.spin(forward, 12, volt);
+  timeDriveStraight(1, -90, 3);
+  intake.stop();
+}
+
+void auton_right() {
+  flywheelScaler = 0.6;
+  thread t = thread(flyThread);
+  intake.spin(reverse, 12, volt);
+  driveStraight(13, 0, 2, 2);
+  turnHeading(70);
+  leftDrivetrain.stop();
+  rightDrivetrain.stop();
+  launch();
+  wait(0.5, seconds);
+  launch();
+  turnHeading(-45);
+  flywheelScaler = 0.622;
+  driveStraight(33, -45, 3, 3, true, 8);
+  turnHeading(-123);
+  driveStraight(-8, -123);
+  turnHeading(-123);
+  leftDrivetrain.stop();
+  rightDrivetrain.stop();
+  launch();
+  wait(0.5, seconds);
+  launch();
+  wait(0.5, seconds);
+  launch();
+  flywheel.stop();
+  intake.stop();
+  turnHeading(-223);
+  driveStraight(58, -223);
+  turnHeading(-180);
+  intake.spin(forward, 12, volt);
+  timeDriveStraight(0.5, -180, 3);
+  intake.stop();
+}
+
+void old_solo() {
+  flywheelScaler = 0.66;
   thread t = thread(flyThread);
   a_left();
   driveStraight(-1, 0, 1, 0.5);
@@ -22,30 +147,6 @@ void auton_left() {
   turnHeading(-38, false, 1.5);
   driveStraight(-4, -38);
   turnHeading(-45);
-  timeDriveStraight(0.5, -45, 0);
-  launch();
-  wait(1, seconds);
-  launch();
-  flywheel.stop();
-}
-
-void a_right() {
-  driveStraight(23, 0, 2);
-  turnHeading(90);
-  turnRoller(90, 1, false);
-}
-
-void solo() {
-  flywheelScaler = 0.618;
-  thread t = thread(flyThread);
-  a_left();
-  driveStraight(-1, 0, 1, 0.5);
-  turnHeading(45, false, 0.7);
-  timeDriveStraight(0.5, 45, 0);
-  driveStraight(-44, 45);
-  turnHeading(-38, false, 1.5);
-  driveStraight(-4, -38);
-  turnHeading(-43);
   timeDriveStraight(0.5, -43, 0);
   launch();
   wait(1, seconds);
@@ -56,11 +157,157 @@ void solo() {
   turnHeading(-150, false, 0.5);
   driveStraight(5, -150, 3, 1.7);
   turnHeading(-90, false, 1);
-  turnRoller(-100, 1);
+  intake.spin(forward, 12, volt);
+  timeDriveStraight(1.2, -90, 3);
+  intake.stop();
 }
 
 void skills() {
-  //flywheelSpinning = false;
+  flywheelScaler = 0.522;
+  thread t = thread(flyThread);
+  //thread j = thread(intakeThread);
+  turnRoller(0, 0.5);
+  driveStraight(-8, 0, 2);
+  turnHeading(90);
+  driveStraight(12, 90, 2, 2);
+  turnRoller(90, 1);
+  driveStraight(-14, 90, 2);
+  turnHeading(100);
+  driveStraight(-34, 100, 3);
+  turnHeading(90);
+  launch();
+  wait(0.8, seconds);
+  launch();
+  while (numDiscs()) {
+    intake.spin(reverse, 12, volt);
+    launch();
+    wait(0.5, seconds);
+  }
+  intake.stop();
+  turnHeading(125);
+  driveStraight(21, 160);
+  turnHeading(215);
+  flywheelScaler = .54;
+  intake.spin(reverse, 12, volt);
+  driveStraight(45, 220, 3, 3, true, 8);
+  turnHeading(172);
+  driveStraight(-17, 172, 3, 3, true, 11.5);
+  intake.spin(forward, 12*intakeScaler, volt);
+  turnHeading(174);
+  leftDrivetrain.stop();
+  rightDrivetrain.stop();
+  launch();
+  wait(0.5, seconds);
+  launch();
+  wait(1, seconds);
+  launch();
+  while (numDiscs()) {
+    intake.spin(reverse, 12, volt);
+    launch();
+    wait(0.5, seconds);
+  }
+  intake.stop();
+  turnHeading(165);
+  intake.spin(reverse, 12, volt);
+  driveStraight(22, 165, 2, 2);
+  leftDrivetrain.stop();
+  rightDrivetrain.stop();
+  wait(0.5, seconds);
+  driveStraight(17, 165, 3, 3, true, 6);
+  driveStraight(-37, 165, 3);
+  intake.spin(forward, 12*intakeScaler, volt);
+  turnHeading(172);
+  leftDrivetrain.stop();
+  rightDrivetrain.stop();
+  launch();
+  wait(0.5, seconds);
+  launch();
+  wait(1, seconds);
+  launch();
+  while (numDiscs()) {
+    intake.spin(reverse, 12, volt);
+    launch();
+    wait(0.5, seconds);
+  }
+  intake.stop();
+  turnHeading(165);
+  driveStraight(15, 165, 2, 1);
+  intake.spin(reverse, 12, volt);
+  turnHeading(180);
+  driveStraight(25, 180);
+  turnRoller(180, 0.7);
+  driveStraight(-12, 180, 2, 1.5);
+  turnHeading(270);
+  driveStraight(11, 270, 2, 2);
+  turnRoller(270, 1);
+  driveStraight(-20, 270, 2, 2);
+  while (numDiscs()) {
+    intake.spin(reverse, 12, volt);
+    launch();
+    wait(0.5, seconds);
+  }
+  intake.stop();
+  turnHeading(65);
+  intake.spin(reverse, 12, volt);
+  driveStraight(9, 65, 2, 1);
+  leftDrivetrain.stop();
+  rightDrivetrain.stop();
+  wait(0.5, seconds);
+  turnHeading(65);
+  driveStraight(24, 65, 3, 2.5, true, 6);
+  if (numDiscs()>2) {
+    intake.spin(forward, 12, volt);
+    if (numDiscs()>3) {
+      launch();
+    }
+  }
+  turnHeading(305);
+  driveStraight(-8.5, 305);
+  turnHeading(289);
+  leftDrivetrain.stop();
+  rightDrivetrain.stop();
+  launch();
+  wait(0.5, seconds);
+  launch();
+  wait(1, seconds);
+  launch();
+  while (numDiscs()) {
+    intake.spin(reverse, 12, volt);
+    launch();
+    wait(0.5, seconds);
+  }
+  intake.stop();
+  wait(0.1, seconds);
+  turnHeading(370);
+  intake.spin(reverse, 12, volt);
+  driveStraight(19, 370, 3, 2, true, 8);
+  turnHeading(405);
+  while (numDiscs() > 1) {
+    intake.spin(reverse, 12, volt);
+    launch();
+    wait(0.5, seconds);
+  }
+  driveStraight(30, 405, 3, 3, true, 8);
+  turnHeading(352);
+  driveStraight(-17, 352, 3, 3, true, 11.5);
+  turnHeading(352);
+  leftDrivetrain.stop();
+  rightDrivetrain.stop();
+  launch();
+  wait(0.5, seconds);
+  launch();
+  wait(1, seconds);
+  launch();
+  driveStraight(34, 360);
+  turnHeading(405);
+  driveStraight(8, 405);
+  leftDrivetrain.stop();
+  rightDrivetrain.stop();
+  //extension.set(true);
+}
+
+void match_skills() {
+  flywheelSpinning = false;
   flywheelScaler = 0.54;
   thread t = thread(flyThread);
   turnRoller(0, 1.5, false); 
@@ -73,18 +320,33 @@ void skills() {
   turnHeading(100);
   driveStraight(-24, 100, 3, 2);
   turnHeading(79);
-  driveStraight(7.7, 79);
+  driveStraight(6.8, 79);
   launch();
   wait(0.8, seconds);
   launch();
-  repeat(17) {
+  repeat(9) {
     match_load();
   }
-  driveStraight(-7, 79);
-  turnHeading(120);
-  driveStraight(35, 120);
-  turnHeading(45);
-  extension.set(true);
+  driveStraight(-14, 81);
+  turnHeading(135);
+  driveStraight(27, 135, 3, 3);
+  turnHeading(225);
+  intake.spin(reverse, 12, volt);
+  driveStraight(53, 225, 3, 6, true, 12);
+  turnHeading(180);
+  launch();
+  driveStraight(35, 180, 3, 6, true, 4);
+  driveStraight(-12, 180);
+  turnHeading(270);
+  timeDriveStraight(2, 270, 4);
+  intake.stop();
+  driveStraight(-7, 270, 1);
+  turnHeading(310);
+  driveStraight(-13, 310, 2);
+  turnHeading(282);
+  driveStraight(-10, 282, 2);
+  turnHeading(275);
+  driveStraight(-12, 275, 2);
   return;
 }
 

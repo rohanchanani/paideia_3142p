@@ -7,20 +7,16 @@ using namespace vex;
 bool flywheelSpinning = true;
 double flywheelScaler = 0.6;
 double FLYWHEEL_RPM = 600;
+double FLY_CONSTANT = 20; 
 
 void flyThread() {
   while (true) {
+    wait(10, msec);
     if (flywheelSpinning) {
-      if (flywheel.velocity(rpm) / FLYWHEEL_RPM < flywheelScaler) {
-        controller1.Screen.setCursor(0, 0);
-        controller1.Screen.clearScreen();
-        controller1.Screen.print(flywheelScaler);
-        flywheel.spin(forward, 100, percent);
+      double flywheelConst = FLY_CONSTANT * (flywheelScaler - flywheel.velocity(rpm) / FLYWHEEL_RPM);
+      flywheel.spin(forward, 12 * (flywheelScaler + flywheelConst), volt);
     }
-      else {
-        flywheel.spin(forward, 0, percent);
-      }
-    } else {
+    else {
       flywheel.stop();
     }
   }

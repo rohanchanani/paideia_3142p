@@ -22,7 +22,8 @@ digital_out extension = digital_out(Brain.ThreeWirePort.C);
 encoder vertical = encoder(Brain.ThreeWirePort.G);
 encoder horizontal = encoder(Brain.ThreeWirePort.E);
 inertial inertial1 = inertial(PORT10);
-optical optical1 = optical(PORT18);
+optical optical1 = optical(PORT5);
+distance distance1 = distance(PORT8);
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

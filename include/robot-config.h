@@ -19,6 +19,7 @@ extern encoder horizontal;
 extern inertial inertial1;
 extern drivetrain robotDrive;
 extern optical optical1;
+extern distance distance1;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

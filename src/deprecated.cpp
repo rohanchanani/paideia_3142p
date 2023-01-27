@@ -4,20 +4,6 @@
 
 using namespace vex;
 
-bool isBlue = false;
-
-void changeColor() {
-  if (isBlue) {
-    Brain.Screen.drawRectangle(0, 0, 500, 500, red);
-    Brain.Screen.print("3142P");
-    isBlue = false;
-  } else {
-    isBlue = true;
-    Brain.Screen.drawRectangle(0, 0, 500, 500, blue);
-    Brain.Screen.print("3142P");
-  }
-}
-
 double currentX = 0;
 double currentY = 0;
 double fieldOrientation = 0;
@@ -53,19 +39,11 @@ void odom() {
   }
 }
 
-bool convertColor() {
-  if (optical1.hue() > 150 && optical1.hue() < 300) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
 void oldTurnRoller(double timeout) {
   double startTime = Brain.timer(seconds);
   bool initialColor = convertColor();
-  intake.spin(reverse, 20, percent);
-  if (initialColor == isBlue) {
+  intake.spin(reverse, 12, volt);
+  if (initialColor == targetColor) {
     while (convertColor() == initialColor) {
       if (Brain.timer(seconds) - startTime > timeout) {
         return;
