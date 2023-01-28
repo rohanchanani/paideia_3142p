@@ -76,6 +76,25 @@ void setIntake(int intakeSpeed) {
 void switchIntake() { intakeSpinning = !intakeSpinning; }
 
 void turnRoller(double target, double initialTime, double timeout, bool repeat) {
+  double firstTime = Brain.timer(seconds);
+  intake.spin(reverse, 12, volt);
+  while((vertical.velocity(dps) > 15 && Brain.timer(seconds) - firstTime <initialTime) || Brain.timer(seconds) - firstTime < 0.3) {
+    double currentError = inertial1.rotation(degrees) - target;
+    wait(10, msec);
+    leftDrivetrain.spin(forward,(3 - PID(target, currentError,SCALE_FACTOR, NEW_SCALE_FACTOR)), volt);
+    rightDrivetrain.spin(forward, (3 + PID(target, currentError, SCALE_FACTOR, NEW_SCALE_FACTOR)), volt);
+  }
+  double initialRotation = intake.rotation(degrees);
+  while (std::abs(intake.rotation(degrees) - initialRotation) < timeout) {
+    double currentError = inertial1.rotation(degrees) - target;
+    wait(10, msec);
+    leftDrivetrain.spin(forward,(1 - PID(target, currentError,SCALE_FACTOR, NEW_SCALE_FACTOR)), volt);
+    rightDrivetrain.spin(forward, (1 + PID(target, currentError, SCALE_FACTOR, NEW_SCALE_FACTOR)), volt);
+  }
+  intake.stop();
+}
+
+void testTurnRoller(double target, double initialTime, double timeout, bool repeat) {
   intake.spin(reverse, 12, volt);
   double firstTime = Brain.timer(seconds);
   while((vertical.velocity(dps) > 15 && Brain.timer(seconds) - firstTime <initialTime) || Brain.timer(seconds) - firstTime < 0.3) {

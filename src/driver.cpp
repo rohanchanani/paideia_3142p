@@ -38,11 +38,11 @@ void usercontrol(void) {
         abs(controller1.Axis4.position()) > 0) {
       leftDrivetrain.spin(forward,
                           speedScaler * (controller1.Axis3.position() +
-                                          controller1.Axis4.position()),
+                                          0.75*controller1.Axis4.position()),
                           percent);
       rightDrivetrain.spin(forward,
                            speedScaler * (controller1.Axis3.position() -
-                                           controller1.Axis4.position()),
+                                           0.75*controller1.Axis4.position()),
                            percent);
     } else {
       leftDrivetrain.spin(forward, 0, percent);
@@ -53,7 +53,7 @@ void usercontrol(void) {
     intake.spin(forward,
                 (2 * int(controller1.ButtonL2.pressing()) -
                  int(intakeSpinning) - int(controller1.ButtonL1.pressing())) *
-                    85,
+                    100,
                 percent);
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
